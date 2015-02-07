@@ -54,7 +54,11 @@ public class Machine {
 		}
 		Machine m = new Machine();
 		Translator t = new Translator(args[0]);
-		t.readAndTranslate(m.getLabels(), m.getProg());
+		boolean success = t.readAndTranslate(m.getLabels(), m.getProg());
+		if (!success) 
+			System.exit(1); // stop with error indication
+			
+		
 
 		System.out.println("Here is the program; it has " + m.getProg().size()
 				+ " instructions.");
