@@ -109,7 +109,8 @@ public class Translator {
 			return "";
 
 		int i = 0;
-		while (i < line.length() && line.charAt(i) != ' ' && line.charAt(i) != '\t') {
+		while (i < line.length() && line.charAt(i) != ' '
+				&& line.charAt(i) != '\t') {
 			i = i + 1;
 		}
 		String word = line.substring(0, i);
