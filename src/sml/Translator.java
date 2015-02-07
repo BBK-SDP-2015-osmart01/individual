@@ -25,9 +25,16 @@ public class Translator {
 		this.fileName = SRC + "/" + fileName;
 	}
 
-	// translate the small program in the file into lab (the labels) and
-	// prog (the program)
-	// return "no errors were detected"
+	/**
+	 * translate reads in the SML program from "fileName" previously stored into
+	 * lab (the labels)
+	 * 
+	 * @param lab
+	 *            the labels
+	 * @param prog
+	 *            the program (an ArrayList of Instructions)
+	 * @return success indicator - return false if a error is found
+	 */
 	public boolean readAndTranslate(Labels lab, ArrayList<Instruction> prog) {
 
 		try (Scanner sc = new Scanner(new File(fileName))) {
