@@ -32,13 +32,32 @@ public class Machine {
 		pc = 0;
 	}
 
+	/**
+	 * The SML interpreter must be supplied with a single SML format input file
+	 * as an argument
+	 * 
+	 * @param args
+	 *            command line arguments, will stop with error/usage
+	 *            statement unless there is a single input file name provided
+	 */
 	public static void main(String[] args) {
-
+		if (args.length != 1) { // check that user has provided the required
+								// single argument
+			System.err.println("ERROR found in SML interpreter");
+			System.err
+					.println("ERROR you have not provided the filename to be processed");
+			System.err.println("usage:");
+			System.err.println("\tjava ... Machine file.sml");
+			System.err
+					.println("Where file.sml is the input SML program file that must exist in the src directory.");
+			System.exit(1); // stop with error
+		}
 		Machine m = new Machine();
 		Translator t = new Translator(args[0]);
 		t.readAndTranslate(m.getLabels(), m.getProg());
 
-		System.out.println("Here is the program; it has " + m.getProg().size() + " instructions.");
+		System.out.println("Here is the program; it has " + m.getProg().size()
+				+ " instructions.");
 		System.out.println(m);
 
 		System.out.println("Beginning program execution.");
