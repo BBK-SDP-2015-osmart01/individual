@@ -1,11 +1,34 @@
 package sml;
 
-public class SubInstruction extends AddInstruction{
+/**
+ * This class deals with SML "sub" instruction
+ * 
+ * According to assignment sheet:
+ * 
+ * "L1 sub r s1 s2" is an instruction to
+ * "Subtract the contents of register S2 from the contents of s1 and store the result in register r"
+ * 
+ * @author SDP course work code modified by Oliver Smart
+ *         <osmart01@dcs.bbk.ac.uk>
+ */
+
+public class SubInstruction extends Instruction {
+
+	protected int result;
+	protected int op1;
+	protected int op2;
+
+	public SubInstruction(String label, String op) {
+		super(label, op);
+	}
 
 	public SubInstruction(String label, int result, int op1, int op2) {
-		super(label, result, op1, op2);
+		this(label, "sub");
+		this.result = result;
+		this.op1 = op1;
+		this.op2 = op2;
 	}
-	
+
 	@Override
 	public void execute(Machine m) {
 		int value1 = m.getRegisters().getRegister(op1);
@@ -15,10 +38,7 @@ public class SubInstruction extends AddInstruction{
 
 	@Override
 	public String toString() {
-		// not allowed to access super.super so
-		String id = label + ": " + opcode;
-		return id + " subtract the contents of reg " + op2 + " from reg "
-				+ op1 + " storing result in reg " + result;
+		return super.toString() + " subtract the contents of reg " + op2
+				+ " from reg " + op1 + " storing result in reg " + result;
 	}
-
 }
