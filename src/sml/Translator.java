@@ -18,6 +18,7 @@ public class Translator {
 	private Labels labels; // The labels of the program being translated
 	private ArrayList<Instruction> program; // The program to be created
 	private String fileName; // source file of SML code
+	private String lastWord; // the last word that was parsed (used in bnz instruction).
 
 	private static final String SRC = "src";
 
@@ -122,8 +123,9 @@ public class Translator {
 			return new LinInstruction(label, r, s1);
 		case "out":
 			return new OutInstruction(label, r);
-
-			// will write code here for the other instructions!
+		case "bnz":
+			// 
+			return new BnzInstruction(label, r, lastWord);
 
 		default:
 			System.out.println("WARNING have unrecognized instruction='" + ins
@@ -159,6 +161,8 @@ public class Translator {
 		if (word.length() == 0) {
 			return Integer.MAX_VALUE;
 		}
+		// store word for possible use in bnz instruction
+		lastWord = word; 
 
 		try {
 			return Integer.parseInt(word);

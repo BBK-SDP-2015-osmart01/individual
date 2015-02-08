@@ -13,6 +13,7 @@ Added new classes:
 * [ArithmeticInstruction](src/sml/ArithmeticInstruction.java) intermediate Abstract class to avoid code duplication in *AddInstruction*, *SubInstruction*, *MulInstruction* and *DivInstruction*
 * [SubInstruction](src/sml/SubInstruction.java) to deal with `sub` instruction (really simple with a single constructor function).
 * [MulInstruction](src/sml/SubInstruction.java) to deal with `mul` instruction.
+* [BnzInstruction](src/sml/BnzInstruction.java) to deal with `bnz` instruction (a bit more complex than others).
 
 
 Use test `.sml` program files
