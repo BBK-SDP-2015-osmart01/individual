@@ -10,7 +10,8 @@ extended `getInstruction` to deal with other instructions,
 
 Added new classes:
 * [OutInstruction](src/sml/OutInstruction.java) to deal with `out` instruction.
-* [SubInstruction](src/sml/SubInstruction.java) to deal with `sub` instruction - rather nasty cut, paste and modify a couple of lines from add.
+* [ArithmeticInstruction](src/sml/ArithmeticInstruction.java) intermediate Abstract class to avoid code duplication in *AddInstruction*, *SubInstruction*, *MulInstruction* and *DivInstruction*
+* [SubInstruction](src/sml/SubInstruction.java) to deal with `sub` instruction (really simple with a single constructor function).
 * [MulInstruction](src/sml/SubInstruction.java) to deal with `mul` instruction.
 
 
