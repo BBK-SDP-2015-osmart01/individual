@@ -50,7 +50,8 @@ public class Translator {
 			while (sc.hasNextLine()) { // there is another to process
 				try {
 					line = sc.nextLine();
-					line = line.replaceFirst("#.*", ""); // strip comments starting with #
+					line = line.replaceFirst("#.*", ""); // strip comments
+															// starting with #
 				} catch (NoSuchElementException ioE) {
 					System.err.println("ERROR reading from file: '"
 							+ ioE.getMessage() + "'");
@@ -91,32 +92,32 @@ public class Translator {
 	 * @return the instruction or Null if the line is not recognised.
 	 */
 	public Instruction getInstruction(String label) {
-		int s1; // Possible operands of the instruction
-		int s2;
-		int r;
-		//int x;
-
 		if (line.equals(""))
 			return null;
-		
+
 		String ins = scan();
+		/*
+		 * Possible operands of the instruction
+		 * 
+		 * they have similar arguments all but bnz have one, two or three
+		 * integer arguments so can save repeating same parse code.
+		 * 
+		 * N.B. we will often scan an integer that is not there resulting for
+		 * instance in s2 being set to Integer.MAX_VALUE but this is not a
+		 * problem.
+		 */
+		int r = scanInt();
+		int s1 = scanInt();
+		int s2 = scanInt();
+
 		switch (ins) {
 		case "add":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
 			return new AddInstruction(label, r, s1, s2);
 		case "sub":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new SubInstruction(label, r, s1, s2);			
+			return new SubInstruction(label, r, s1, s2);
 		case "lin":
-			r = scanInt();
-			s1 = scanInt();
 			return new LinInstruction(label, r, s1);
 		case "out":
-			r = scanInt();
 			return new OutInstruction(label, r);
 
 			// will write code here for the other instructions!
