@@ -95,6 +95,7 @@ public class Translator {
 		if (line.equals(""))
 			return null;
 
+		String origLine = line; // for error message
 		String ins = scan();
 		/*
 		 * Possible operands of the instruction
@@ -115,6 +116,8 @@ public class Translator {
 			return new AddInstruction(label, r, s1, s2);
 		case "sub":
 			return new SubInstruction(label, r, s1, s2);
+		case "mul":
+			return new MulInstruction(label, r, s1, s2);
 		case "lin":
 			return new LinInstruction(label, r, s1);
 		case "out":
@@ -124,8 +127,7 @@ public class Translator {
 
 		default:
 			System.out.println("WARNING have unrecognized instruction='" + ins
-					+ "' on line with label='" + label + "' rest of line='"
-					+ line + "'");
+					+ "' on line '" + label + " " + origLine + "'");
 		}
 
 		return null;
