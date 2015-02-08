@@ -37,8 +37,8 @@ public class Machine {
 	 * as an argument
 	 * 
 	 * @param args
-	 *            command line arguments, will stop with error/usage
-	 *            statement unless there is a single input file name provided
+	 *            command line arguments, will stop with error/usage statement
+	 *            unless there is a single input file name provided
 	 */
 	public static void main(String[] args) {
 		if (args.length != 1) { // check that user has provided the required
@@ -55,10 +55,11 @@ public class Machine {
 		Machine m = new Machine();
 		Translator t = new Translator(args[0]);
 		boolean success = t.readAndTranslate(m.getLabels(), m.getProg());
-		if (!success) 
+		if (!success) {
+			System.err.println("ERROR found in trying to read"
+					+ " input file. Exiting with Error status set.");
 			System.exit(1); // stop with error indication
-			
-		
+		}
 
 		System.out.println("Here is the program; it has " + m.getProg().size()
 				+ " instructions.");

@@ -1,6 +1,7 @@
 package sml;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -47,6 +48,8 @@ public class Translator {
 			try {
 				line = sc.nextLine();
 			} catch (NoSuchElementException ioE) {
+				System.err.println("ERROR reading first line: '"
+						+ ioE.getMessage() + "'");
 				return false;
 			}
 
@@ -66,11 +69,14 @@ public class Translator {
 				try {
 					line = sc.nextLine();
 				} catch (NoSuchElementException ioE) {
+					System.err.println("ERROR reading from file: '"
+							+ ioE.getMessage() + "'");
 					return false;
 				}
 			}
-		} catch (IOException ioE) {
-			System.out.println("File: IO error " + ioE.getMessage());
+		} catch (FileNotFoundException ex) {
+			System.err.println("ERROR error opening input file: "
+					+ ex.getMessage());
 			return false;
 		}
 		return true;
