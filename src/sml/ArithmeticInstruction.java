@@ -10,8 +10,8 @@ package sml;
 
 public abstract class ArithmeticInstruction extends Instruction {
 
-	protected int result;
-	protected int op1;
+	private int result;
+	private int op1;
 	private int op2;
 
 	public ArithmeticInstruction(String label, String opcode, int result,
