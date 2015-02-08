@@ -50,6 +50,7 @@ public class Translator {
 			while (sc.hasNextLine()) { // there is another to process
 				try {
 					line = sc.nextLine();
+					line = line.replaceFirst("#.*", ""); // strip comments starting with #
 				} catch (NoSuchElementException ioE) {
 					System.err.println("ERROR reading from file: '"
 							+ ioE.getMessage() + "'");
@@ -97,7 +98,7 @@ public class Translator {
 
 		if (line.equals(""))
 			return null;
-
+		
 		String ins = scan();
 		switch (ins) {
 		case "add":
