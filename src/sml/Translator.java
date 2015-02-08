@@ -45,16 +45,16 @@ public class Translator {
 			program = prog;
 			program.clear();
 
-			try {
-				line = sc.nextLine();
-			} catch (NoSuchElementException ioE) {
-				System.err.println("ERROR reading first line: '"
-						+ ioE.getMessage() + "'");
-				return false;
-			}
-
 			// Each iteration processes line and reads the next line into line
-			while (line != null) {
+			while (sc.hasNextLine()) { // there is another to process
+				try {
+					line = sc.nextLine();
+				} catch (NoSuchElementException ioE) {
+					System.err.println("ERROR reading from file: '"
+							+ ioE.getMessage() + "'");
+					return false;
+				}
+
 				// Store the label in label
 				String label = scan();
 
@@ -65,21 +65,13 @@ public class Translator {
 						program.add(ins);
 					}
 				}
-
-				try {
-					line = sc.nextLine();
-				} catch (NoSuchElementException ioE) {
-					System.err.println("ERROR reading from file: '"
-							+ ioE.getMessage() + "'");
-					return false;
-				}
 			}
 		} catch (FileNotFoundException ex) {
 			System.err.println("ERROR error opening input file: "
 					+ ex.getMessage());
 			return false;
 		}
-		return true;
+		return true;  // success!
 	}
 
 	// line should consist of an MML instruction, with its label already
