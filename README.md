@@ -9,11 +9,15 @@ to halt if a problem was found in inputing the SML program, ...
 extended `getInstruction` to deal with other instructions,
 
 Added new classes:
-* [OutInstruction](src/sml/OutInstruction.java) to deal with `out` instruction.o
+* [OutInstruction](src/sml/OutInstruction.java) to deal with `out` instruction.
+* [SubInstruction](src/sml/SubInstruction.java) to deal with `sub` instruction - rather nasty cut, paste and modify a couple of lines from add.
+* [MulInstruction](src/sml/SubInstruction.java) to deal with `mul` instruction.
 
 
 Use test `.sml` program files
-* [add.sml](src/add.sml) basic test of `add` and `out` **N.B. use # as a comment to help my u
+* [add.sml](src/add.sml) basic test of `add` and `out` **N.B. use # as a comment to help my understanding**
+* [mul.sml](src/mul.sml) basic test of `mul`.
+
 
 
 
