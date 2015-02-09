@@ -1,0 +1,14 @@
+Here is the program; it has 7 instructions.
+f0: lin register 20 value is 6
+f1: lin register 21 value is 1
+f2: lin register 22 value is 1
+f3: mul contents of reg 21 and reg 20 storing result in reg 21
+f4: sub contents of reg 20 and reg 22 storing result in reg 20
+f5: bnz if contents of 20 is not zero then f3 will be next label to execute
+f6: out print register 21 contents to Java console 
+
+Beginning program execution.
+720
+Ending program execution.
+Values of registers at program termination:
+Registers(registers=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 720, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]).

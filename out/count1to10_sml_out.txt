@@ -1,0 +1,23 @@
+Here is the program; it has 7 instructions.
+a: lin register 29 value is 0
+b: lin register 1 value is 1
+c: lin register 10 value is 10
+d: add contents of reg 29 and reg 1 storing result in reg 29
+e: out print register 29 contents to Java console 
+f: sub contents of reg 29 and reg 10 storing result in reg 30
+g: bnz if contents of 30 is not zero then d will be next label to execute
+
+Beginning program execution.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Ending program execution.
+Values of registers at program termination:
+Registers(registers=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0]).
