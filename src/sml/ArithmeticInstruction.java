@@ -1,8 +1,7 @@
 package sml;
 
 /**
- * Attempt to avoid large code duplication in AddInstruction,
- * SubInstruction ...
+ * Attempt to avoid large code duplication in AddInstruction, SubInstruction ...
  * 
  * @author SDP course work code modified by Oliver Smart
  *         <osmart01@dcs.bbk.ac.uk>
@@ -23,7 +22,7 @@ public abstract class ArithmeticInstruction extends Instruction {
 			this.op1 = op1;
 			this.op2 = op2;
 		} else {
-			throw new RuntimeException("unrecognized opcode "+ opcode);
+			throw new RuntimeException("unrecognized opcode " + opcode);
 		}
 	}
 
@@ -38,8 +37,10 @@ public abstract class ArithmeticInstruction extends Instruction {
 			valueResult = value1 - value2;
 		} else if (opcode.equals("mul")) {
 			valueResult = value1 * value2;
-		} else if (opcode.equals("mul")) {
+		} else if (opcode.equals("div")) {
 			valueResult = value1 / value2;
+		} else {
+			throw new RuntimeException("unrecognized opcode " + opcode);
 		}
 		m.getRegisters().setRegister(result, valueResult);
 	}

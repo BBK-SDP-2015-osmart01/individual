@@ -120,6 +120,8 @@ public class Translator {
 			return new SubInstruction(label, r, s1, s2);
 		case "mul":
 			return new MulInstruction(label, r, s1, s2);
+		case "div":
+			return new DivInstruction(label, r, s1, s2);
 		case "lin":
 			return new LinInstruction(label, r, s1);
 		case "out":

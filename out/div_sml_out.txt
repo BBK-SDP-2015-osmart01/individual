@@ -1,0 +1,11 @@
+Here is the program; it has 4 instructions.
+f0: lin register 20 value is 9
+f1: lin register 21 value is -7
+f2: div contents of reg 20 and reg 21 storing result in reg 10
+f3: out print register 10 contents to Java console 
+
+Beginning program execution.
+-1
+Ending program execution.
+Values of registers at program termination:
+Registers(registers=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]).

@@ -19,6 +19,7 @@ Added new classes:
 Use test `.sml` program files
 * [add.sml](src/add.sml) basic test of `add` and `out` **N.B. use # as a comment to help my understanding**
 * [mul.sml](src/mul.sml) basic test of `mul`.
+* [div.sml](src/div.sml) basic test of `div` produces [output](out/div_sml_out.txt)
 
 
 
