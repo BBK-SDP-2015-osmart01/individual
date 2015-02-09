@@ -4,9 +4,11 @@
 Revised the files given to us in the exercise:
 
 * [Machine](src/sml/Machine.java) to handle missing arguments, 
-to halt if a problem was found in inputing the SML program, ...
+to halt if a problem was found in inputing the SML program *BUT
+reverted back to original version having read Keith's Moodle Message `Leave the code alone!`"*
 * [Translator](src/sml/Translator.java) found and fixed bug in `readAndTranslate` method, 
-extended `getInstruction` to deal with other instructions,
+extended `getInstruction` to deal with other instructions, and then converted to use
+reflection to load classess rather explicit calls to classes.
 
 Added new classes:
 * [OutInstruction](src/sml/OutInstruction.java) to deal with `out` instruction.
