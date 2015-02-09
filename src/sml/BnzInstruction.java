@@ -22,6 +22,12 @@ public class BnzInstruction extends Instruction {
 		super(label, "bnz");
 		this.register = register;
 		this.nextLabel = nextLabel;
+		/*
+		 * thought of checking that nextLabel is legitimate here in the
+		 * constructor. But this is not a good idea. Can only do that nextLabel
+		 * is legitimate once the complete program is stored as there is nothing
+		 * in specification to say cannot jump further down program.
+		 */
 	}
 
 	/**
@@ -37,6 +43,19 @@ public class BnzInstruction extends Instruction {
 			System.out.println("debug BnzInstruction need to make "
 					+ "the statement label '" + nextLabel
 					+ "' the next to execute - not yet written");
+			// go through the labels checking for nextLabel
+			int match = -1;
+			for (int pc = 0; pc < m.getProg().size(); pc++) {
+				String pcLabel = m.getProg().get(pc).label;
+				if (nextLabel.equals(pcLabel))
+					match = pc;
+				System.out.println("debug " + pcLabel);
+			}
+			if (match != -1) {
+				m.setPc(match);
+			} else {
+				// throw an error
+			}
 		}
 	}
 
