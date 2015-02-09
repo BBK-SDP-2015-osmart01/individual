@@ -154,10 +154,30 @@ public class Translator {
 				// no problem just got onto next try.
 			}
 
-			throw new RuntimeException("although there is a class " + insClass
-					+ " cannot find a constructor with appropriate arguments"
-					+ " problem found when dealing with '" + label + " "
-					+ origLine + "'");
+			// 3rd try string,int used in out
+			try {
+				Constructor<?> aConstructor = insClass
+						.getConstructor(new Class[] { String.class, int.class});
+				// have to cast Object to Instruction for return
+				return (Instruction) aConstructor.newInstance(label, r);
+			} catch (NoSuchMethodException ex) {
+				// no problem just got onto next try.
+			}
+			
+			// 4th try string,int,string
+			try {
+				Constructor<?> aConstructor = insClass
+						.getConstructor(new Class[] { String.class, int.class, String.class});
+				// have to cast Object to Instruction for return
+				return (Instruction) aConstructor.newInstance(label, r, lastWord);
+			} catch (NoSuchMethodException ex) {
+				// last try failed throw an exception!
+				throw new RuntimeException("although there is a class " + insClass
+						+ " cannot find a constructor with appropriate arguments"
+						+ " problem found when dealing with '" + label + " "
+						+ origLine + "'");
+			}
+
 
 		} catch (InvocationTargetException | InstantiationException
 				| IllegalAccessException | IllegalArgumentException ex) {
@@ -165,12 +185,6 @@ public class Translator {
 					+ " found when dealing with " + label + " " + origLine);
 		}
 
-		// now try string,int,int used for lin
-
-		// Constructor<?>[] insConstructors = insClass.getConstructors();
-		// for (Constructor<?> itConstructor : insConstructors) {
-		// System.out.println("debug constructor " + itConstructor);
-		// }
 		// FOR REFLECTION COMMENT OUT THE SWITCH AND EXPLICIT CALLS
 		// switch (ins) {
 		// case "add":
