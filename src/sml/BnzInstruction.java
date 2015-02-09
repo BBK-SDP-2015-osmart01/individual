@@ -40,21 +40,17 @@ public class BnzInstruction extends Instruction {
 		// get the value of the stored register from the machine
 		int value = m.getRegisters().getRegister(register);
 		if (value != 0) {
-			System.out.println("debug BnzInstruction need to make "
-					+ "the statement label '" + nextLabel
-					+ "' the next to execute - not yet written");
 			// go through the labels checking for nextLabel
 			int match = -1;
 			for (int pc = 0; pc < m.getProg().size(); pc++) {
 				String pcLabel = m.getProg().get(pc).label;
 				if (nextLabel.equals(pcLabel))
 					match = pc;
-				System.out.println("debug " + pcLabel);
 			}
 			if (match != -1) {
 				m.setPc(match);
 			} else {
-				// throw an error
+				throw new RuntimeException("bnz instruction to a non-existent statement " + nextLabel);
 			}
 		}
 	}
