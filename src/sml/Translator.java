@@ -18,7 +18,8 @@ public class Translator {
 	private Labels labels; // The labels of the program being translated
 	private ArrayList<Instruction> program; // The program to be created
 	private String fileName; // source file of SML code
-	private String lastWord; // the last word that was parsed (used in bnz instruction).
+	private String lastWord; // the last word that was parsed (used in bnz
+								// instruction).
 
 	private static final String SRC = "src";
 
@@ -124,8 +125,11 @@ public class Translator {
 		case "out":
 			return new OutInstruction(label, r);
 		case "bnz":
-			// bnz is unusual as the constructor has to be supplied with a String for 
-			// nextLabel get this from the lastWord passed (trying to get s2) 
+			/*
+			 * bnz is unusual as the constructor has to be supplied with a
+			 * String for nextLabel get this from the lastWord passed (trying to
+			 * get s2)
+			 */
 			return new BnzInstruction(label, r, lastWord);
 
 		default:
@@ -163,7 +167,7 @@ public class Translator {
 			return Integer.MAX_VALUE;
 		}
 		// store word for possible use in bnz instruction
-		lastWord = word; 
+		lastWord = word;
 
 		try {
 			return Integer.parseInt(word);

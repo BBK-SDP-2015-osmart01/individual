@@ -21,9 +21,13 @@ public class BnzInstruction extends Instruction {
 	/**
 	 * Constructor for "bnz" instruction
 	 * 
-	 * @param label label for the line
-	 * @param register the register to check contents.
-	 * @param nextLabel execute the statement labelled nextLabel next if register not zero
+	 * @param label
+	 *            label for the line
+	 * @param register
+	 *            the register to check contents.
+	 * @param nextLabel
+	 *            execute the statement labelled nextLabel next if register not
+	 *            zero
 	 */
 	public BnzInstruction(String label, int register, String nextLabel) {
 		super(label, "bnz");
@@ -57,7 +61,9 @@ public class BnzInstruction extends Instruction {
 			if (match != -1) {
 				m.setPc(match);
 			} else {
-				throw new RuntimeException("bnz instruction to a non-existent statement " + nextLabel);
+				throw new RuntimeException(
+						"bnz instruction to a non-existent statement "
+								+ nextLabel);
 			}
 		}
 	}
