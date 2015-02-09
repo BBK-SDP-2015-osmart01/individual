@@ -3,6 +3,7 @@ package sml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -124,10 +125,26 @@ public class Translator {
 		try {
 			Class<?> insClass = Class.forName(insClassName);
 
-			Constructor<?>[] insConstructors = insClass.getConstructors();
-			for (Constructor<?> itConstructor : insConstructors) {
-				System.out.println("debug constructor " + itConstructor);
+			// try to find a constructor for string,int,int,int
+			try {
+				Constructor<?> aConstructor = insClass
+						.getConstructor(new Class[] { String.class, int.class,
+								int.class, int.class });
+				System.out.println("got constructor for string,int,int,int");
+				return (Instruction) aConstructor.newInstance(label, r, s1, s2);
+			} catch (NoSuchMethodException ex) {
+				System.out
+						.println("no constructor for string,int,int,int " + ex);
+			} catch (InvocationTargetException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException ex) {
+				throw new RuntimeException("exception loading"
+						+ ex.getMessage());
 			}
+
+			// Constructor<?>[] insConstructors = insClass.getConstructors();
+			// for (Constructor<?> itConstructor : insConstructors) {
+			// System.out.println("debug constructor " + itConstructor);
+			// }
 		} catch (ClassNotFoundException ex) {
 			throw new RuntimeException("exception loading" + ex.getMessage());
 		}
