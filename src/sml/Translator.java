@@ -124,7 +124,8 @@ public class Translator {
 		case "out":
 			return new OutInstruction(label, r);
 		case "bnz":
-			// 
+			// bnz is unusual as the constructor has to be supplied with a String for 
+			// nextLabel get this from the lastWord passed (trying to get s2) 
 			return new BnzInstruction(label, r, lastWord);
 
 		default:

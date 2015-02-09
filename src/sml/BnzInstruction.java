@@ -18,6 +18,13 @@ public class BnzInstruction extends Instruction {
 		super(label, opcode);
 	}
 
+	/**
+	 * Constructor for "bnz" instruction
+	 * 
+	 * @param label label for the line
+	 * @param register the register to check contents.
+	 * @param nextLabel execute the statement labelled nextLabel next if register not zero
+	 */
 	public BnzInstruction(String label, int register, String nextLabel) {
 		super(label, "bnz");
 		this.register = register;
