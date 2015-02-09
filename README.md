@@ -19,7 +19,7 @@ Added new classes:
 
 Use test `.sml` program files to develop. (TDD would be nice but a very large amount of work!):
 * [add.sml](src/add.sml) basic test of `add` and `out` **N.B. use # as a comment to help my understanding**
-[output](out/mul_sml_out.txt)
+[output](out/add_sml_out.txt)
 * [mul.sml](src/mul.sml) basic test of `mul`.produces [output](out/mul_sml_out.txt)
 * [div.sml](src/div.sml) basic test of `div` produces [output](out/div_sml_out.txt)
 * [count1to10.sml](src/count1to10.sml) test `bnz` by looping to print 1, 2, ... 10 produces [output](out/count1to10_sml_out.txt)
