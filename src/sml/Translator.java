@@ -2,6 +2,7 @@ package sml;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -113,31 +114,49 @@ public class Translator {
 		int s1 = scanInt();
 		int s2 = scanInt();
 
-		switch (ins) {
-		case "add":
-			return new AddInstruction(label, r, s1, s2);
-		case "sub":
-			return new SubInstruction(label, r, s1, s2);
-		case "mul":
-			return new MulInstruction(label, r, s1, s2);
-		case "div":
-			return new DivInstruction(label, r, s1, s2);
-		case "lin":
-			return new LinInstruction(label, r, s1);
-		case "out":
-			return new OutInstruction(label, r);
-		case "bnz":
-			/*
-			 * bnz is unusual as the constructor has to be supplied with a
-			 * String for nextLabel get this from the lastWord passed (trying to
-			 * get s2)
-			 */
-			return new BnzInstruction(label, r, lastWord);
+		// reflection form class name for 'add' the class will be call
+		// sml.AddInstruction
+		String insClassName = ins.substring(0, 1).toUpperCase()
+				+ ins.substring(1); // 'add' to Add
+		insClassName = "sml." + insClassName + "Instruction";
+		System.out.println("\ndebug got instruction '" + ins
+				+ "', examine class " + insClassName);
+		try {
+			Class<?> insClass = Class.forName(insClassName);
 
-		default:
-			System.out.println("WARNING have unrecognized instruction='" + ins
-					+ "' on line '" + label + " " + origLine + "'");
+			Constructor<?>[] insConstructors = insClass.getConstructors();
+			for (Constructor<?> itConstructor : insConstructors) {
+				System.out.println("debug constructor " + itConstructor);
+			}
+		} catch (ClassNotFoundException ex) {
+			throw new RuntimeException("exception loading" + ex.getMessage());
 		}
+		// FOR REFLECTION COMMENT OUT THE SWITCH AND EXPLICIT CALLS
+		// switch (ins) {
+		// case "add":
+		// return new AddInstruction(label, r, s1, s2);
+		// case "sub":
+		// return new SubInstruction(label, r, s1, s2);
+		// case "mul":
+		// return new MulInstruction(label, r, s1, s2);
+		// case "div":
+		// return new DivInstruction(label, r, s1, s2);
+		// case "lin":
+		// return new LinInstruction(label, r, s1);
+		// case "out":
+		// return new OutInstruction(label, r);
+		// case "bnz":
+		// /*
+		// * bnz is unusual as the constructor has to be supplied with a
+		// * String for nextLabel get this from the lastWord passed (trying to
+		// * get s2)
+		// */
+		// return new BnzInstruction(label, r, lastWord);
+		//
+		// default:
+		// System.out.println("WARNING have unrecognized instruction='" + ins
+		// + "' on line '" + label + " " + origLine + "'");
+		// }
 
 		return null;
 	}
