@@ -120,34 +120,57 @@ public class Translator {
 		String insClassName = ins.substring(0, 1).toUpperCase()
 				+ ins.substring(1); // 'add' to Add
 		insClassName = "sml." + insClassName + "Instruction";
-		System.out.println("\ndebug got instruction '" + ins
-				+ "', examine class " + insClassName);
+		Class<?> insClass = null;
 		try {
-			Class<?> insClass = Class.forName(insClassName);
+			insClass = Class.forName(insClassName);
+		} catch (ClassNotFoundException ex) {
+			System.out.println("WARNING have unrecognized instruction='" + ins
+					+ "' on line '" + label + " " + origLine + "'"
+					+ "(cannot load a Class '" + insClass + "' )");
+			return null;
+		}
 
-			// try to find a constructor for string,int,int,int
+		try {
+			// 1st try constructor for string,int,int,int arguments used
+			// in add, sub, mul, div ....
 			try {
 				Constructor<?> aConstructor = insClass
 						.getConstructor(new Class[] { String.class, int.class,
 								int.class, int.class });
-				System.out.println("got constructor for string,int,int,int");
+				// have to cast Object to Instruction for return
 				return (Instruction) aConstructor.newInstance(label, r, s1, s2);
 			} catch (NoSuchMethodException ex) {
-				System.out
-						.println("no constructor for string,int,int,int " + ex);
-			} catch (InvocationTargetException | InstantiationException
-					| IllegalAccessException | IllegalArgumentException ex) {
-				throw new RuntimeException("exception loading"
-						+ ex.getMessage());
+				// no problem just got onto a try next next constructor
 			}
 
-			// Constructor<?>[] insConstructors = insClass.getConstructors();
-			// for (Constructor<?> itConstructor : insConstructors) {
-			// System.out.println("debug constructor " + itConstructor);
-			// }
-		} catch (ClassNotFoundException ex) {
-			throw new RuntimeException("exception loading" + ex.getMessage());
+			// 2nd try string,int,int used in lin
+			try {
+				Constructor<?> aConstructor = insClass
+						.getConstructor(new Class[] { String.class, int.class,
+								int.class });
+				// have to cast Object to Instruction for return
+				return (Instruction) aConstructor.newInstance(label, r, s1);
+			} catch (NoSuchMethodException ex) {
+				// no problem just got onto next try.
+			}
+
+			throw new RuntimeException("although there is a class " + insClass
+					+ " cannot find a constructor with appropriate arguments"
+					+ " problem found when dealing with '" + label + " "
+					+ origLine + "'");
+
+		} catch (InvocationTargetException | InstantiationException
+				| IllegalAccessException | IllegalArgumentException ex) {
+			throw new RuntimeException("exception loading" + ex.getMessage()
+					+ " found when dealing with " + label + " " + origLine);
 		}
+
+		// now try string,int,int used for lin
+
+		// Constructor<?>[] insConstructors = insClass.getConstructors();
+		// for (Constructor<?> itConstructor : insConstructors) {
+		// System.out.println("debug constructor " + itConstructor);
+		// }
 		// FOR REFLECTION COMMENT OUT THE SWITCH AND EXPLICIT CALLS
 		// switch (ins) {
 		// case "add":
@@ -174,8 +197,6 @@ public class Translator {
 		// System.out.println("WARNING have unrecognized instruction='" + ins
 		// + "' on line '" + label + " " + origLine + "'");
 		// }
-
-		return null;
 	}
 
 	/*
