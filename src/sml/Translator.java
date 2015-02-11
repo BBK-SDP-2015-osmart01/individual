@@ -22,6 +22,13 @@ public class Translator {
 	private String fileName; // source file of SML code
 
 	private static final String SRC = "src";
+	private static final Class<?> PARAMS_SIII[] = { String.class, int.class,
+			int.class, int.class };
+	private static final Class<?> PARAMS_SII[] = { String.class, int.class,
+			int.class };
+	private static final Class<?> PARAMS_SIS[] = { String.class, int.class,
+			String.class };
+	private static final Class<?> PARAMS_SI[] = { String.class, int.class };
 
 	public Translator(String fileName) {
 		this.fileName = SRC + "/" + fileName;
@@ -122,35 +129,31 @@ public class Translator {
 			Class<?> pTypes[] = itConstr.getParameterTypes();
 
 			try {
-				// to find a constructor with parameters we can provide
-				if (pTypes.length == 4) {
-					// are the parameters string,int,int,int?
-					// (as used in add, sub, mul, div ....)
-					if (pTypes[0].equals(String.class)
-							&& pTypes[1].equals(int.class)
-							&& pTypes[2].equals(int.class)
-							&& pTypes[3].equals(int.class)) {
-						int r = scanInt();
-						int s1 = scanInt();
-						int s2 = scanInt();
-						return (Instruction) itConstr.newInstance(label, r, s1,
-								s2);
-					}
-				} else if (pTypesStringIntInt(pTypes)) {
-					// the are parameters string,int,int. as used in lin ..
+				// look for a constructor with parameters we can provide
+				if (pTypesMatch(pTypes, PARAMS_SIII)) {
+					// the parameters are string,int,int,int. As used in add ..
+					int r = scanInt();
+					int s1 = scanInt();
+					int s2 = scanInt();
+					return (Instruction) itConstr.newInstance(label, r, s1, s2);
+				
+				} else if (pTypesMatch(pTypes, PARAMS_SII)) {
+					// the parameters are string,int,int. As used in lin
 					int r = scanInt();
 					int x = scanInt();
 					return (Instruction) itConstr.newInstance(label, r, x);
-				} else if (pTypesStringIntString(pTypes)) {
-					// the parameters are string,int,string? as used in bnz
+
+				} else if (pTypesMatch(pTypes, PARAMS_SIS)) {
+					// the parameters are string,int,string. As used in bnz
 					int s1 = scanInt();
 					String L2 = scan();
 					return (Instruction) itConstr.newInstance(label, s1, L2);
 
-				} else if (pTypesStringInt(pTypes)) {
+				} else if (pTypesMatch(pTypes, PARAMS_SI)) {
 					// the parameters string,int? (as used in out ....)
 					int s1 = scanInt();
 					return (Instruction) itConstr.newInstance(label, s1);
+					
 				}
 
 			} catch (InstantiationException | IllegalAccessException
@@ -170,53 +173,21 @@ public class Translator {
 	}
 
 	/**
-	 * Checks for parameter types String, int, String
+	 * Check whether two arrays of parameter types have the same elements
 	 * 
 	 * @param pTypes
-	 *            The parameter types to be checked
-	 * @return true if the parameter types match, false otherwise
+	 *            first array of parameter types
+	 * @param gTypes
+	 *            2nd array of parameter types
+	 * @return true if the arrays match, false otherwise
 	 */
-	private boolean pTypesStringIntString(Class<?> pTypes[]) {
+	private boolean pTypesMatch(Class<?> pTypes[], Class<?> gTypes[]) {
 		boolean retValue = false;
-		if (pTypes.length == 3) {
-			if (pTypes[0].equals(String.class) && pTypes[1].equals(int.class)
-					&& pTypes[2].equals(String.class)) {
-				retValue = true;
-			}
-		}
-		return retValue;
-	}
-
-	/**
-	 * Checks for parameter types String, int, int
-	 * 
-	 * @param pTypes
-	 *            The parameter types to be checked
-	 * @return true if the parameter types match, false otherwise
-	 */
-	private boolean pTypesStringIntInt(Class<?> pTypes[]) {
-		boolean retValue = false;
-		if (pTypes.length == 3) {
-			if (pTypes[0].equals(String.class) && pTypes[1].equals(int.class)
-					&& pTypes[2].equals(int.class)) {
-				retValue = true;
-			}
-		}
-		return retValue;
-	}
-
-	/**
-	 * Checks for parameter types String, int
-	 * 
-	 * @param pTypes
-	 *            The parameter types to be checked
-	 * @return true if the parameter types match, false otherwise
-	 */
-	private boolean pTypesStringInt(Class<?> pTypes[]) {
-		boolean retValue = false;
-		if (pTypes.length == 2) {
-			if (pTypes[0].equals(String.class) && pTypes[1].equals(int.class)) {
-				retValue = true;
+		if (pTypes.length == gTypes.length) {
+			retValue = true;
+			for (int it = 0; it < pTypes.length; it++) {
+				if (!pTypes[it].equals(gTypes[it]))
+					retValue = false;
 			}
 		}
 		return retValue;
