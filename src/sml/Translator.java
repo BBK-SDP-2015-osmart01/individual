@@ -136,35 +136,21 @@ public class Translator {
 						return (Instruction) itConstr.newInstance(label, r, s1,
 								s2);
 					}
-				} else if (pTypes.length == 3) {
-					// are the parameters string,int,int?
-					// (as used in lin ....)
-					if (pTypes[0].equals(String.class)
-							&& pTypes[1].equals(int.class)
-							&& pTypes[2].equals(int.class)) {
-						int r = scanInt();
-						int x = scanInt();
-						return (Instruction) itConstr.newInstance(label, r, x);
-					}
-					// or are the parameters string,int,string?
-					// (as used in bnz ....)
-					if (pTypes[0].equals(String.class)
-							&& pTypes[1].equals(int.class)
-							&& pTypes[2].equals(String.class)) {
-						int s1 = scanInt();
-						String L2 = scan();
-						return (Instruction) itConstr
-								.newInstance(label, s1, L2);
-					}
+				} else if (pTypesStringIntInt(pTypes)) {
+					// the are parameters string,int,int. as used in lin ..
+					int r = scanInt();
+					int x = scanInt();
+					return (Instruction) itConstr.newInstance(label, r, x);
+				} else if (pTypesStringIntString(pTypes)) {
+					// the parameters are string,int,string? as used in bnz
+					int s1 = scanInt();
+					String L2 = scan();
+					return (Instruction) itConstr.newInstance(label, s1, L2);
 
-				} else if (pTypes.length == 2) {
-					// are the parameters string,int?
-					// (as used in out ....)
-					if (pTypes[0].equals(String.class)
-							&& pTypes[1].equals(int.class)) {
-						int s1 = scanInt();
-						return (Instruction) itConstr.newInstance(label, s1);
-					}
+				} else if (pTypesStringInt(pTypes)) {
+					// the parameters string,int? (as used in out ....)
+					int s1 = scanInt();
+					return (Instruction) itConstr.newInstance(label, s1);
 				}
 
 			} catch (InstantiationException | IllegalAccessException
@@ -181,6 +167,59 @@ public class Translator {
 				+ " cannot find a constructor with appropriate arguments"
 				+ " problem found when dealing with '" + label + " " + origLine
 				+ "'");
+	}
+
+	/**
+	 * Checks for parameter types String, int, String
+	 * 
+	 * @param pTypes
+	 *            The parameter types to be checked
+	 * @return true if the parameter types match, false otherwise
+	 */
+	private boolean pTypesStringIntString(Class<?> pTypes[]) {
+		boolean retValue = false;
+		if (pTypes.length == 3) {
+			if (pTypes[0].equals(String.class) && pTypes[1].equals(int.class)
+					&& pTypes[2].equals(String.class)) {
+				retValue = true;
+			}
+		}
+		return retValue;
+	}
+
+	/**
+	 * Checks for parameter types String, int, int
+	 * 
+	 * @param pTypes
+	 *            The parameter types to be checked
+	 * @return true if the parameter types match, false otherwise
+	 */
+	private boolean pTypesStringIntInt(Class<?> pTypes[]) {
+		boolean retValue = false;
+		if (pTypes.length == 3) {
+			if (pTypes[0].equals(String.class) && pTypes[1].equals(int.class)
+					&& pTypes[2].equals(int.class)) {
+				retValue = true;
+			}
+		}
+		return retValue;
+	}
+
+	/**
+	 * Checks for parameter types String, int
+	 * 
+	 * @param pTypes
+	 *            The parameter types to be checked
+	 * @return true if the parameter types match, false otherwise
+	 */
+	private boolean pTypesStringInt(Class<?> pTypes[]) {
+		boolean retValue = false;
+		if (pTypes.length == 2) {
+			if (pTypes[0].equals(String.class) && pTypes[1].equals(int.class)) {
+				retValue = true;
+			}
+		}
+		return retValue;
 	}
 
 	/*
