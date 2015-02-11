@@ -20,8 +20,6 @@ public class Translator {
 	private Labels labels; // The labels of the program being translated
 	private ArrayList<Instruction> program; // The program to be created
 	private String fileName; // source file of SML code
-	private String lastWord; // the last word that was parsed (used in bnz
-								// instruction).
 
 	private static final String SRC = "src";
 
@@ -101,22 +99,9 @@ public class Translator {
 
 		String origLine = line; // for error message
 		String ins = scan();
-		/*
-		 * Possible operands of the instruction
-		 * 
-		 * they have similar arguments all but bnz have one, two or three
-		 * integer arguments so can save repeating same parse code.
-		 * 
-		 * N.B. we will often scan an integer that is not there resulting for
-		 * instance in s2 being set to Integer.MAX_VALUE but this is not a
-		 * problem.
-		 */
-		int r = scanInt();
-		int s1 = scanInt();
-		int s2 = scanInt();
-
-		// reflection form class name for 'add' the class will be call
-		// sml.AddInstruction
+		// reflection:
+		// first makeup the appropriate class name.
+		// For example for 'add' the class is called 'sml.AddInstruction'
 		String insClassName = ins.substring(0, 1).toUpperCase()
 				+ ins.substring(1); // 'add' to Add
 		insClassName = "sml." + insClassName + "Instruction";
@@ -130,87 +115,72 @@ public class Translator {
 			return null;
 		}
 
-		try {
-			// 1st try constructor for string,int,int,int arguments used
-			// in add, sub, mul, div ....
+		// What constructors does this class have?
+		Constructor<?> insClassConstructors[] = insClass.getConstructors();
+		for (Constructor<?> itConstr : insClassConstructors) {
+			// what parameters does this constructor have?
+			Class<?> pTypes[] = itConstr.getParameterTypes();
+
 			try {
-				Constructor<?> aConstructor = insClass
-						.getConstructor(new Class[] { String.class, int.class,
-								int.class, int.class });
-				// have to cast Object to Instruction for return
-				return (Instruction) aConstructor.newInstance(label, r, s1, s2);
-			} catch (NoSuchMethodException ex) {
-				// no problem just got onto a try next next constructor
+				// to find a constructor with parameters we can provide
+				if (pTypes.length == 4) {
+					// are the parameters string,int,int,int?
+					// (as used in add, sub, mul, div ....)
+					if (pTypes[0].equals(String.class)
+							&& pTypes[1].equals(int.class)
+							&& pTypes[2].equals(int.class)
+							&& pTypes[3].equals(int.class)) {
+						int r = scanInt();
+						int s1 = scanInt();
+						int s2 = scanInt();
+						return (Instruction) itConstr.newInstance(label, r, s1,
+								s2);
+					}
+				} else if (pTypes.length == 3) {
+					// are the parameters string,int,int?
+					// (as used in lin ....)
+					if (pTypes[0].equals(String.class)
+							&& pTypes[1].equals(int.class)
+							&& pTypes[2].equals(int.class)) {
+						int r = scanInt();
+						int x = scanInt();
+						return (Instruction) itConstr.newInstance(label, r, x);
+					}
+					// or are the parameters string,int,string?
+					// (as used in bnz ....)
+					if (pTypes[0].equals(String.class)
+							&& pTypes[1].equals(int.class)
+							&& pTypes[2].equals(String.class)) {
+						int s1 = scanInt();
+						String L2 = scan();
+						return (Instruction) itConstr
+								.newInstance(label, s1, L2);
+					}
+
+				} else if (pTypes.length == 2) {
+					// are the parameters string,int?
+					// (as used in out ....)
+					if (pTypes[0].equals(String.class)
+							&& pTypes[1].equals(int.class)) {
+						int s1 = scanInt();
+						return (Instruction) itConstr.newInstance(label, s1);
+					}
+				}
+
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException ex) {
+				// Problem with one of the constructors
+				throw new RuntimeException("exception loading"
+						+ ex.getMessage() + " found when dealing with " + label
+						+ " " + origLine);
 			}
 
-			// 2nd try string,int,int used in lin
-			try {
-				Constructor<?> aConstructor = insClass
-						.getConstructor(new Class[] { String.class, int.class,
-								int.class });
-				// have to cast Object to Instruction for return
-				return (Instruction) aConstructor.newInstance(label, r, s1);
-			} catch (NoSuchMethodException ex) {
-				// no problem just got onto next try.
-			}
-
-			// 3rd try string,int used in out
-			try {
-				Constructor<?> aConstructor = insClass
-						.getConstructor(new Class[] { String.class, int.class});
-				// have to cast Object to Instruction for return
-				return (Instruction) aConstructor.newInstance(label, r);
-			} catch (NoSuchMethodException ex) {
-				// no problem just got onto next try.
-			}
-			
-			// 4th try string,int,string
-			try {
-				Constructor<?> aConstructor = insClass
-						.getConstructor(new Class[] { String.class, int.class, String.class});
-				// have to cast Object to Instruction for return
-				return (Instruction) aConstructor.newInstance(label, r, lastWord);
-			} catch (NoSuchMethodException ex) {
-				// last try failed throw an exception!
-				throw new RuntimeException("although there is a class " + insClass
-						+ " cannot find a constructor with appropriate arguments"
-						+ " problem found when dealing with '" + label + " "
-						+ origLine + "'");
-			}
-
-
-		} catch (InvocationTargetException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException ex) {
-			throw new RuntimeException("exception loading" + ex.getMessage()
-					+ " found when dealing with " + label + " " + origLine);
 		}
 
-		// FOR REFLECTION COMMENT OUT THE SWITCH AND EXPLICIT CALLS
-		// switch (ins) {
-		// case "add":
-		// return new AddInstruction(label, r, s1, s2);
-		// case "sub":
-		// return new SubInstruction(label, r, s1, s2);
-		// case "mul":
-		// return new MulInstruction(label, r, s1, s2);
-		// case "div":
-		// return new DivInstruction(label, r, s1, s2);
-		// case "lin":
-		// return new LinInstruction(label, r, s1);
-		// case "out":
-		// return new OutInstruction(label, r);
-		// case "bnz":
-		// /*
-		// * bnz is unusual as the constructor has to be supplied with a
-		// * String for nextLabel get this from the lastWord passed (trying to
-		// * get s2)
-		// */
-		// return new BnzInstruction(label, r, lastWord);
-		//
-		// default:
-		// System.out.println("WARNING have unrecognized instruction='" + ins
-		// + "' on line '" + label + " " + origLine + "'");
-		// }
+		throw new RuntimeException("although there is a class " + insClass
+				+ " cannot find a constructor with appropriate arguments"
+				+ " problem found when dealing with '" + label + " " + origLine
+				+ "'");
 	}
 
 	/*
@@ -239,9 +209,6 @@ public class Translator {
 		if (word.length() == 0) {
 			return Integer.MAX_VALUE;
 		}
-		// store word for possible use in bnz instruction
-		lastWord = word;
-
 		try {
 			return Integer.parseInt(word);
 		} catch (NumberFormatException e) {
