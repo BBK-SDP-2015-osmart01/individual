@@ -1,0 +1,8 @@
+Here is the program; it has 1 instructions.
+f3: out print register 32 contents to Java console 
+
+Beginning program execution.
+Exception in thread "main" java.lang.RuntimeException: illegal register value in instruction 'f3: out print register 32 contents to Java console '
+	at sml.OutInstruction.execute(OutInstruction.java:40)
+	at sml.Machine.execute(Machine.java:71)
+	at sml.Machine.main(Machine.java:45)

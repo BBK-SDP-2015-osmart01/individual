@@ -30,6 +30,7 @@ Use test `.sml` program files to develop. (TDD would be nice but a very large am
 * [mod.sml](src/mod.sml) test new `mod` instruction produces [output](out/mod_sml_out.txt)
 * [count1to10.sml](src/count1to10.sml) test `bnz` by looping to print 1, 2, ... 10 produces [output](out/count1to10_sml_out.txt)
 * [code.sml](src/code.sml) the SML program we were given to find factorial 6, produces [output](out/code_sml_out.txt)
+* [outERROR.sml](src/outERROR.sml) ERROR handling on out: giving illegal register 32 produces sensible exception.
 
 
 

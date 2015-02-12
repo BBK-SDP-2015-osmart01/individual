@@ -22,18 +22,25 @@ public class OutInstruction extends Instruction {
 		this.register = register;
 	}
 
-
 	/**
-	 * Executes and out instruction.
+	 * Executes an out instruction.
 	 * 
 	 * @Param m the machine to getRegister from.
+	 * @throws RunTimeException
+	 *             if the instruction has an illegal register value
 	 */
 	@Override
 	public void execute(Machine m) {
 		// get the value of the stored register from the machine
-		int value = m.getRegisters().getRegister(register);
-		// and print it
-		System.out.println(value);
+		try {
+			int value = m.getRegisters().getRegister(register);
+			// and print it
+			System.out.println(value);
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			throw new RuntimeException(
+					"illegal register value in instruction '" + this + "'");
+
+		}
 	}
 
 	@Override
