@@ -22,9 +22,23 @@ public class DivInstruction extends ArithmeticInstruction {
 	 * @param op1
 	 *            register for the number to be divided
 	 * @param op2
-	 *            register for the the number to divide by
+	 *            register for the number to divide by
 	 */
 	public DivInstruction(String label, int result, int op1, int op2) {
 		super(label, "div", result, op1, op2);
+	}
+
+	/**
+	 * The arithmetic operation involved, here division
+	 * 
+	 * @param value1
+	 *            to be operated on
+	 * @param value2
+	 *            to be operated on
+	 * @return the result of the operation.
+	 */
+	@Override
+	protected int theOperation(int value1, int value2) {
+		return value1 / value2;
 	}
 }
