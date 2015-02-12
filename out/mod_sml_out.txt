@@ -1,0 +1,11 @@
+Here is the program; it has 4 instructions.
+f0: lin register 20 value is 97
+f1: lin register 21 value is 10
+f2: mod contents of reg 20 and reg 21 storing result in reg 10
+f3: out print register 10 contents to Java console 
+
+Beginning program execution.
+7
+Ending program execution.
+Values of registers at program termination:
+Registers(registers=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 97, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]).
