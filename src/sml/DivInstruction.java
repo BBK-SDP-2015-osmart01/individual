@@ -1,7 +1,7 @@
 package sml;
 
 /**
- * This class deals with SML "add" instruction
+ * This class deals with SML "div" instruction
  * 
  * According to assignment sheet:
  * 
