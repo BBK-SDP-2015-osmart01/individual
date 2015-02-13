@@ -98,7 +98,9 @@ public class Translator {
 	 *         <osmart01@dcs.bbk.ac.uk>
 	 * @param label
 	 *            the label for the instruction
-	 * @return the instruction or Null if the line is not recognised.
+	 * @return the instruction or Null if the line is blank
+	 * @throws RunTimeException
+	 *             if there is any problem found
 	 */
 	public Instruction getInstruction(String label) {
 		if (line.equals(""))
@@ -116,10 +118,9 @@ public class Translator {
 		try {
 			insClass = Class.forName(insClassName);
 		} catch (ClassNotFoundException ex) {
-			System.out.println("WARNING have unrecognized instruction='" + ins
-					+ "' on line '" + label + " " + origLine + "'"
-					+ "(cannot load a Class '" + insClass + "' )");
-			return null;
+			throw new RuntimeException("Unrecognized Instruction: '" + ins
+					+ "' on line '" + label + origLine + "'"
+					+ " (cannot load a Class '" + insClass + "' )");
 		}
 
 		// What constructors does this class have?
@@ -166,17 +167,19 @@ public class Translator {
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException ex) {
 				// Problem with one of the constructors
-				throw new RuntimeException("exception loading"
-						+ ex.getMessage() + " found when dealing with " + label
-						+ origLine);
+				throw new RuntimeException("Constructor Exception  '"
+						+ ex.getMessage() + "' class '" + insClassName
+						+ "' for instruction '" + label + origLine + "'");
 			}
 
 		}
 
-		throw new RuntimeException("although there is a class " + insClass
-				+ " cannot find a constructor with appropriate arguments"
-				+ " problem found when dealing with '" + label + " " + origLine
-				+ "'");
+		throw new RuntimeException(
+				"No Constructor Found: although there is a class '"
+						+ insClass
+						+ "' cannot find a constructor with appropriate arguments"
+						+ " problem found when dealing with '" + label
+						+ origLine + "'");
 	}
 
 	/**
@@ -228,9 +231,8 @@ public class Translator {
 	 *             if there has been a problem
 	 */
 	private void throwIfNotValid(String parseStr, String instruction) {
-		if (parseStr == "")
-			throw new RuntimeException("parse error for '" + instruction
-					+ "' failed to get required parameters");
+		if (parseStr == "") // use the int version to do the throw
+			throwIfNotValid(Integer.MAX_VALUE, instruction);
 	}
 
 	/*
