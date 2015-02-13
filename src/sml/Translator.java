@@ -255,7 +255,7 @@ public class Translator {
 	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
 	 */
 	private void throwIfNotValid(String parseStr, String instruction) {
-		if (parseStr == "") // use the int version to do the throw
+		if (parseStr.equals("")) // use the int version to do the throw
 			throwIfNotValid(Integer.MAX_VALUE, instruction);
 	}
 
