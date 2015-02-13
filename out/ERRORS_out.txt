@@ -1,8 +1,8 @@
 Here is the program; it has 1 instructions.
-fz: add contents of reg 1 and reg 2 storing result in reg -1
+l2: bnz if contents of 200 is not zero then l1 will be next label to execute
 
 Beginning program execution.
-Exception in thread "main" java.lang.RuntimeException: illegal register value in instruction 'fz: add contents of reg 1 and reg 2 storing result in reg -1'
-	at sml.ArithmeticInstruction.execute(ArithmeticInstruction.java:34)
+Exception in thread "main" java.lang.RuntimeException: illegal register value in instruction 'l2: bnz if contents of 200 is not zero then l1 will be next label to execute'
+	at sml.BnzInstruction.execute(BnzInstruction.java:56)
 	at sml.Machine.execute(Machine.java:71)
 	at sml.Machine.main(Machine.java:45)
