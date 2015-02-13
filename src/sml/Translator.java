@@ -211,14 +211,17 @@ public class Translator {
 	/**
 	 * Checks that an integer has been successfully parsed from "instruction"
 	 * 
+	 * 
 	 * @param parseInt
-	 *            the integer value if this is Integer.MAX_VALUE there has been
-	 *            a problem
+	 *            the integer value (if this is Integer.MAX_VALUE there has been
+	 *            a problem)
 	 * @param instruction
-	 *            to produce meaningful exception
+	 *            the instruction that was parsed (used to produce informative
+	 *            exception message).
 	 * @throws RunTimeException
 	 *             if there has been a problem
-	 */
+	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
+	 * */
 	private void throwIfNotValid(int parseInt, String instruction) {
 		if (parseInt == Integer.MAX_VALUE)
 			throw new RuntimeException("parse error for '" + instruction
@@ -229,9 +232,10 @@ public class Translator {
 	 * Checks that a String has been successfully parsed from "instruction"
 	 * 
 	 * @param parseInt
-	 *            the integer value if this is "" there has been a problem
+	 *            the integer value (if this is "" there has been a problem)
 	 * @param instruction
-	 *            to produce meaningful exception
+	 *            the instruction that was parsed (used to produce informative
+	 *            exception message).
 	 * @throws RunTimeException
 	 *             if there has been a problem
 	 */
