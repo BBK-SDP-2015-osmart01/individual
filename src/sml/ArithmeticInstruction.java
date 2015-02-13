@@ -4,7 +4,7 @@ package sml;
  * To avoid large code duplication in AddInstruction, SubInstruction ... classes
  * use this intermediate abstract class that does all the hard work. The only
  * thing that the daughter classes need is a constructor that provides the
- * appropriate opcode to implement theOperation( int, int) method.
+ * appropriate opcode and to implement theOperation( int, int) method.
  * 
  * @author SDP course work code modified by Oliver Smart
  *         <osmart01@dcs.bbk.ac.uk>
