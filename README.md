@@ -30,7 +30,6 @@ Use test `.sml` program files to develop. (TDD would be nice but a very large am
 * [mod.sml](src/mod.sml) test new `mod` instruction produces [output](out/mod_sml_out.txt)
 * [count1to10.sml](src/count1to10.sml) test `bnz` by looping to print 1, 2, ... 10 produces [output](out/count1to10_sml_out.txt)
 * [code.sml](src/code.sml) the SML program we were given to find factorial 6, produces [output](out/code_sml_out.txt)
-* [outERROR.sml](src/outERROR.sml) ERROR handling on out: giving illegal register 32 produces sensible exception.
-
+* [ERRORS.sml](src/ERRORS.sml) tests made to make sure malformed instructions throw sensible exceptions *this is a manual process adding new tests to top of the file - in the 'real world' it would be better to keep separate files for each error to enable scripting tests but life if too short!* So [output](out/ERRORS_out.txt) records each test in git.
 
 
