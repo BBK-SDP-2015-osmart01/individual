@@ -1,6 +1,8 @@
-Exception in thread "main" java.lang.RuntimeException: parse error for 'l1 bnz 1' failed to get required parameters
-	at sml.Translator.throwIfNotValid(Translator.java:219)
-	at sml.Translator.throwIfNotValid(Translator.java:235)
-	at sml.Translator.getInstruction(Translator.java:157)
-	at sml.Translator.readAndTranslate(Translator.java:74)
-	at sml.Machine.main(Machine.java:39)
+Here is the program; it has 1 instructions.
+fz: add contents of reg 1 and reg 2 storing result in reg -1
+
+Beginning program execution.
+Exception in thread "main" java.lang.RuntimeException: illegal register value in instruction 'fz: add contents of reg 1 and reg 2 storing result in reg -1'
+	at sml.ArithmeticInstruction.execute(ArithmeticInstruction.java:34)
+	at sml.Machine.execute(Machine.java:71)
+	at sml.Machine.main(Machine.java:45)

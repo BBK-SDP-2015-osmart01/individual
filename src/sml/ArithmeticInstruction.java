@@ -25,10 +25,15 @@ public abstract class ArithmeticInstruction extends Instruction {
 
 	@Override
 	public void execute(Machine m) {
-		int value1 = m.getRegisters().getRegister(op1);
-		int value2 = m.getRegisters().getRegister(op2);
-		int valueResult = theOperation(value1, value2);
-		m.getRegisters().setRegister(result, valueResult);
+		try {
+			int value1 = m.getRegisters().getRegister(op1);
+			int value2 = m.getRegisters().getRegister(op2);
+			int valueResult = theOperation(value1, value2);
+			m.getRegisters().setRegister(result, valueResult);
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			throw new RuntimeException(
+					"illegal register value in instruction '" + this + "'");
+		}
 	}
 
 	/**
