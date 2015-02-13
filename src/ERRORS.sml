@@ -4,6 +4,8 @@
 
 
 
+l1 bnz 1 # malformed bnz no label to jump to
+
 l1 foo 1 2 # unrecognized insruction
 
 # malformed out - no register given

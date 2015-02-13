@@ -1,4 +1,6 @@
-Exception in thread "main" java.lang.RuntimeException: Unrecognized Instruction: 'foo' on line 'l1 foo 1 2' (cannot load a Class 'sml.FooInstruction')
-	at sml.Translator.getInstruction(Translator.java:121)
+Exception in thread "main" java.lang.RuntimeException: parse error for 'l1 bnz 1' failed to get required parameters
+	at sml.Translator.throwIfNotValid(Translator.java:219)
+	at sml.Translator.throwIfNotValid(Translator.java:235)
+	at sml.Translator.getInstruction(Translator.java:157)
 	at sml.Translator.readAndTranslate(Translator.java:74)
 	at sml.Machine.main(Machine.java:39)
