@@ -1,9 +1,9 @@
 Here is the program; it has 2 instructions.
 l1: lin register 20 value is 1
-l2: bnz if contents of 20 is not zero then foobar will be next label to execute
+l1: bnz if contents of 20 is not zero then 'l1' will be next label to execute
 
 Beginning program execution.
-Exception in thread "main" java.lang.RuntimeException: bnz instruction to a non-existent statement label 'foobar'
-	at sml.BnzInstruction.execute(BnzInstruction.java:75)
+Exception in thread "main" java.lang.RuntimeException: bnz instruction to a statement label 'l1' that occurs more than once.
+	at sml.BnzInstruction.execute(BnzInstruction.java:79)
 	at sml.Machine.execute(Machine.java:71)
 	at sml.Machine.main(Machine.java:45)

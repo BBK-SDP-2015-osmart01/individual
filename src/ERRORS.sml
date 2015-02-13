@@ -5,7 +5,7 @@
 
 
 l1 lin 20 1 
-l2 bnz 20 foobar # bnz jump to non-existent label
+l1 bnz 20 l1 # bnz jump to a label with duplicate matches
 
 ###l2 bnz 200 l1 # invalid register in bnz
 
