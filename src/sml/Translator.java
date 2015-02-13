@@ -135,25 +135,32 @@ public class Translator {
 					int r = scanInt();
 					int s1 = scanInt();
 					int s2 = scanInt();
+					throwIfNotValid(r, label + origLine);
+					throwIfNotValid(s1, label + origLine);
+					throwIfNotValid(s2, label + origLine);
 					return (Instruction) itConstr.newInstance(label, r, s1, s2);
-				
+
 				} else if (pTypesMatch(pTypes, PARAMS_SII)) {
 					// the parameters are string,int,int. As used in lin
 					int r = scanInt();
 					int x = scanInt();
+					throwIfNotValid(r, label + origLine);
+					throwIfNotValid(x, label + origLine);
 					return (Instruction) itConstr.newInstance(label, r, x);
 
 				} else if (pTypesMatch(pTypes, PARAMS_SIS)) {
 					// the parameters are string,int,string. As used in bnz
 					int s1 = scanInt();
 					String L2 = scan();
+					throwIfNotValid(s1, label + origLine);
+					throwIfNotValid(L2, label + origLine);
 					return (Instruction) itConstr.newInstance(label, s1, L2);
 
 				} else if (pTypesMatch(pTypes, PARAMS_SI)) {
 					// the parameters string,int? (as used in out ....)
 					int s1 = scanInt();
+					throwIfNotValid(s1, label + origLine);
 					return (Instruction) itConstr.newInstance(label, s1);
-					
 				}
 
 			} catch (InstantiationException | IllegalAccessException
@@ -161,7 +168,7 @@ public class Translator {
 				// Problem with one of the constructors
 				throw new RuntimeException("exception loading"
 						+ ex.getMessage() + " found when dealing with " + label
-						+ " " + origLine);
+						+ origLine);
 			}
 
 		}
@@ -191,6 +198,39 @@ public class Translator {
 			}
 		}
 		return retValue;
+	}
+
+	/**
+	 * Checks that an integer has been successfully parsed from "instruction"
+	 * 
+	 * @param parseInt
+	 *            the integer value if this is Integer.MAX_VALUE there has been
+	 *            a problem
+	 * @param instruction
+	 *            to produce meaningful exception
+	 * @throws RunTimeException
+	 *             if there has been a problem
+	 */
+	private void throwIfNotValid(int parseInt, String instruction) {
+		if (parseInt == Integer.MAX_VALUE)
+			throw new RuntimeException("parse error for '" + instruction
+					+ "' failed to get required parameters");
+	}
+
+	/**
+	 * Checks that a String has been successfully parsed from "instruction"
+	 * 
+	 * @param parseInt
+	 *            the integer value if this is "" there has been a problem
+	 * @param instruction
+	 *            to produce meaningful exception
+	 * @throws RunTimeException
+	 *             if there has been a problem
+	 */
+	private void throwIfNotValid(String parseStr, String instruction) {
+		if (parseStr == "")
+			throw new RuntimeException("parse error for '" + instruction
+					+ "' failed to get required parameters");
 	}
 
 	/*
