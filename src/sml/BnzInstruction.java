@@ -88,7 +88,7 @@ public class BnzInstruction extends Instruction {
 	@Override
 	public String toString() {
 		return super.toString() + " if contents of " + register
-				+ " is not zero then " + nextLabel
-				+ " will be next label to execute";
+				+ " is not zero then '" + nextLabel
+				+ "' will be next label to execute";
 	}
 }
