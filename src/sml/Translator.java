@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-/*
- * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
+/**
+ * The translator of a SML program
+ * 
+ * @author SDP course work code modified by Oliver Smart
+ *         <osmart01@dcs.bbk.ac.uk>
+ *
  */
 public class Translator {
 
@@ -38,8 +42,6 @@ public class Translator {
 	 * translate reads in the SML program from "fileName" previously stored into
 	 * lab (the labels)
 	 * 
-	 * @author SDP course work code modified by Oliver Smart
-	 *         <osmart01@dcs.bbk.ac.uk>
 	 * @param lab
 	 *            the labels
 	 * @param prog
@@ -90,9 +92,12 @@ public class Translator {
 	 * When called 'line' should consist of an SML instruction, with its label
 	 * already removed. This method translates 'line' into an instruction and
 	 * return it.
-	 * 
-	 * Unrecognised instructions handling: currently prints a warning but in the
-	 * end should throw an exception?
+	 *
+	 * N.B. the method uses reflection to load a appropriate Object for each
+	 * instruction. For an instruction 'abc' it will expect to be able to load
+	 * class 'sml.AbcInstruction'. This class must have an appropriate
+	 * constructor with the same arguments as one of the existing SML
+	 * instructions (see coursework pdf document).
 	 * 
 	 * @author SDP course work code modified by Oliver Smart
 	 *         <osmart01@dcs.bbk.ac.uk>
@@ -235,9 +240,11 @@ public class Translator {
 			throwIfNotValid(Integer.MAX_VALUE, instruction);
 	}
 
-	/*
-	 * Return the first word of line and remove it from line. If there is no
-	 * word, return ""
+	/**
+	 * Return the first word of line and remove it from line.
+	 * 
+	 * @return the first word of line or "" if there is no word.
+	 * @author SDP course work code (unmodified)
 	 */
 	private String scan() {
 		line = line.trim();
@@ -254,8 +261,13 @@ public class Translator {
 		return word;
 	}
 
-	// Return the first word of line as an integer. If there is
-	// any error, return the maximum int
+	/**
+	 * Return the first word of line as an integer and remove it from line.
+	 * 
+	 * @return the integer value of the first work or Integer.MAX_VALUE if there
+	 *         is an error
+	 * @author SDP course work code (unmodified)
+	 */
 	private int scanInt() {
 		String word = scan();
 		if (word.length() == 0) {
