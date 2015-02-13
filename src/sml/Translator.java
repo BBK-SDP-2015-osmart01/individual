@@ -26,12 +26,25 @@ public class Translator {
 	private String fileName; // source file of SML code
 
 	private static final String SRC = "src";
+	
+	/**
+	 * constant parameter list { string, int, int, int }
+	 */
 	private static final Class<?> PARAMS_SIII[] = { String.class, int.class,
 			int.class, int.class };
+	/**
+	 * constant parameter list { string, int, int }
+	 */
 	private static final Class<?> PARAMS_SII[] = { String.class, int.class,
 			int.class };
+	/**
+	 * constant parameter list { string, int, string }
+	 */
 	private static final Class<?> PARAMS_SIS[] = { String.class, int.class,
 			String.class };
+	/**
+	 * constant parameter list { string, int }
+	 */
 	private static final Class<?> PARAMS_SI[] = { String.class, int.class };
 
 	public Translator(String fileName) {
@@ -91,7 +104,7 @@ public class Translator {
 	/**
 	 * When called 'line' should consist of an SML instruction, with its label
 	 * already removed. This method translates 'line' into an instruction and
-	 * return it.
+	 * returns it.
 	 *
 	 * N.B. the method uses reflection to load a appropriate Object for each
 	 * instruction. For an instruction 'abc' it will expect to be able to load
@@ -99,13 +112,13 @@ public class Translator {
 	 * constructor with the same arguments as one of the existing SML
 	 * instructions (see coursework pdf document).
 	 * 
-	 * @author SDP course work code modified by Oliver Smart
-	 *         <osmart01@dcs.bbk.ac.uk>
 	 * @param label
 	 *            the label for the instruction
 	 * @return the instruction or Null if the line is blank
 	 * @throws RunTimeException
 	 *             if there is any problem found
+	 * @author SDP course work code modified by Oliver Smart
+	 *         <osmart01@dcs.bbk.ac.uk>
 	 */
 	public Instruction getInstruction(String label) {
 		if (line.equals(""))
@@ -195,6 +208,7 @@ public class Translator {
 	 * @param gTypes
 	 *            2nd array of parameter types
 	 * @return true if the arrays match, false otherwise
+	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
 	 */
 	private boolean pTypesMatch(Class<?> pTypes[], Class<?> gTypes[]) {
 		boolean retValue = false;
@@ -221,7 +235,7 @@ public class Translator {
 	 * @throws RunTimeException
 	 *             if there has been a problem
 	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
-	 * */
+	 */
 	private void throwIfNotValid(int parseInt, String instruction) {
 		if (parseInt == Integer.MAX_VALUE)
 			throw new RuntimeException("parse error for '" + instruction
@@ -238,6 +252,7 @@ public class Translator {
 	 *            exception message).
 	 * @throws RunTimeException
 	 *             if there has been a problem
+	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
 	 */
 	private void throwIfNotValid(String parseStr, String instruction) {
 		if (parseStr == "") // use the int version to do the throw
