@@ -49,21 +49,38 @@ public class BnzInstruction extends Instruction {
 	@Override
 	public void execute(Machine m) {
 		// get the value of the stored register from the machine
-		int value = m.getRegisters().getRegister(register);
+		int value;
+		try { // check that register is OK
+			value = m.getRegisters().getRegister(register);
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			throw new RuntimeException(
+					"illegal register value in instruction '" + this + "'");
+		}
+
 		if (value != 0) {
 			// go through the labels checking for nextLabel
 			int match = -1;
 			for (int pc = 0; pc < m.getProg().size(); pc++) {
 				String pcLabel = m.getProg().get(pc).label;
-				if (nextLabel.equals(pcLabel))
-					match = pc;
+				if (nextLabel.equals(pcLabel)) {
+					if (match == -1) {
+						match = pc;
+					} else {
+						match = -2; // duplicate labels  
+					}
+				}
 			}
-			if (match != -1) {
-				m.setPc(match);
-			} else {
+
+			if (match == -1) {
 				throw new RuntimeException(
-						"bnz instruction to a non-existent statement "
+						"bnz instruction to a non-existent statement label "
 								+ nextLabel);
+			} else if (match == -2) {
+				throw new RuntimeException(
+						"bnz instruction to a statement label with more than one match "
+								+ nextLabel);
+			} else {
+				m.setPc(match); // the next Instruction
 			}
 		}
 	}
