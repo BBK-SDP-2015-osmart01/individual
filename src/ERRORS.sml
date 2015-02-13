@@ -3,7 +3,11 @@
 # top of file and record its output
 
 
-l2 bnz 200 l1 # invalid register in bnz
+
+l1 lin 20 1 
+l2 bnz 20 foobar # bnz jump to non-existent label
+
+###l2 bnz 200 l1 # invalid register in bnz
 
 ###fz add -1 1 2 # invalid register in add
 
