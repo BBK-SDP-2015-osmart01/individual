@@ -120,7 +120,7 @@ public class Translator {
 		} catch (ClassNotFoundException ex) {
 			throw new RuntimeException("Unrecognized Instruction: '" + ins
 					+ "' on line '" + label + origLine + "'"
-					+ " (cannot load a Class '" + insClass + "' )");
+					+ " (cannot load a Class '" + insClassName + "')");
 		}
 
 		// What constructors does this class have?

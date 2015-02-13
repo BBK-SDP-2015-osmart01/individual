@@ -2,6 +2,10 @@
 # sensible exception. Crude procedure used add new test to
 # top of file and record its output
 
+
+
+l1 foo 1 2 # unrecognized insruction
+
 # malformed out - no register given
 l1 out
 
