@@ -66,19 +66,19 @@ public class BnzInstruction extends Instruction {
 					if (match == -1) {
 						match = pc;
 					} else {
-						match = -2; // duplicate labels  
+						match = -2; // duplicate labels
 					}
 				}
 			}
 
 			if (match == -1) {
 				throw new RuntimeException(
-						"bnz instruction to a non-existent statement label "
-								+ nextLabel);
+						"bnz instruction to a non-existent statement label '"
+								+ nextLabel + "'");
 			} else if (match == -2) {
 				throw new RuntimeException(
-						"bnz instruction to a statement label with more than one match "
-								+ nextLabel);
+						"bnz instruction to a statement label '" + nextLabel
+								+ "' that occurs more than once.");
 			} else {
 				m.setPc(match); // the next Instruction
 			}
