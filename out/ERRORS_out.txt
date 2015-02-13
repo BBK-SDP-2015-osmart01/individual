@@ -1,9 +1,6 @@
-Here is the program; it has 2 instructions.
-l1: lin register 20 value is 1
-l1: bnz if contents of 20 is not zero then 'l1' will be next label to execute
-
-Beginning program execution.
-Exception in thread "main" java.lang.RuntimeException: bnz instruction to a statement label 'l1' that occurs more than once.
-	at sml.BnzInstruction.execute(BnzInstruction.java:79)
-	at sml.Machine.execute(Machine.java:71)
-	at sml.Machine.main(Machine.java:45)
+Exception in thread "main" java.lang.RuntimeException: parse error for 'l1 bnz 1' failed to get required parameters
+	at sml.Translator.throwIfNotValid(Translator.java:241)
+	at sml.Translator.throwIfNotValid(Translator.java:259)
+	at sml.Translator.getInstruction(Translator.java:175)
+	at sml.Translator.readAndTranslate(Translator.java:89)
+	at sml.Machine.main(Machine.java:39)

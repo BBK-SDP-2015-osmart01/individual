@@ -3,15 +3,15 @@
 # top of file and record its output
 
 
+l1 bnz 1 # malformed bnz no label to jump to
 
-l1 lin 20 1 
-l1 bnz 20 l1 # bnz jump to a label with duplicate matches
+###l1 lin 20 1 
+###l1 bnz 20 l1 # bnz jump to a label with duplicate matches
 
 ###l2 bnz 200 l1 # invalid register in bnz
 
 ###fz add -1 1 2 # invalid register in add
 
-###l1 bnz 1 # malformed bnz no label to jump to
 
 ###l1 foo 1 2 # unrecognized insruction
 
