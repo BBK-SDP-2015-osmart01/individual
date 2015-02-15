@@ -168,7 +168,7 @@ public class Translator {
 			return (Instruction) longestConstr.newInstance(params);
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException ex) {
-			// Problem with one of the constructors
+			// Problem with the constructor
 			throw new RuntimeException("Constructor Exception  '"
 					+ ex.getMessage() + "' class '" + insClassName
 					+ "' for instruction '" + label + origLine + "'");
@@ -195,7 +195,6 @@ public class Translator {
 				longestConstr = itConstr;
 			}
 		}
-		// TODO Auto-generated method stub
 		return longestConstr;
 	}
 
