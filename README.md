@@ -19,7 +19,7 @@ Added new classes:
 * [DivInstruction](src/sml/DivInstruction.java) to deal with `div` instruction.
 * [ModInstruction](src/sml/ModInstruction.java). This is a new class to test in practice the exercise sheet assertion that reflection *will enable the SML language to be extended without having to modify the original code.*
 This is the case and the use of the abstract class allows this extension to be made very efficiently.
-
+* [EndInstruction](src/sml/EndInstruction.java). This is a new class to test the revised reflection with an instruction with a parameter list that is different from existing SML instructions.
 
 
 Use test `.sml` program files to develop. (TDD would be nice but a very large amount of work!):
@@ -27,9 +27,11 @@ Use test `.sml` program files to develop. (TDD would be nice but a very large am
 [output](out/add_sml_out.txt)
 * [mul.sml](src/mul.sml) basic test of `mul`.produces [output](out/mul_sml_out.txt)
 * [div.sml](src/div.sml) basic test of `div` produces [output](out/div_sml_out.txt)
-* [mod.sml](src/mod.sml) test new `mod` instruction produces [output](out/mod_sml_out.txt)
 * [count1to10.sml](src/count1to10.sml) test `bnz` by looping to print 1, 2, ... 10 produces [output](out/count1to10_sml_out.txt)
 * [code.sml](src/code.sml) the SML program we were given to find factorial 6, produces [output](out/code_sml_out.txt)
 * [ERRORS.sml](src/ERRORS.sml) tests made to make sure malformed instructions throw sensible exceptions *this is a manual process adding new tests to top of the file - in the 'real world' it would be better to keep separate files for each error to enable scripting tests but life if too short!* So [output](out/ERRORS_out.txt) records each test in git.
+
+* [mod.sml](src/mod.sml) test new `mod` instruction produces [output](out/mod_sml_out.txt)
+* [end.sml](src/end.sml) test new `end` instruction produces [output](out/end_sml_out.txt)
 
 

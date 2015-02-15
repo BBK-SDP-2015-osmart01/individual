@@ -3,7 +3,9 @@
 # top of file and record its output
 
 
-l1 # malformed no instruction- should be ignored
+l1 out # malformed out - no register given
+
+#l1 # malformed no instruction- should be ignored
 
 ###l1 bnz 1 # malformed bnz no label to jump to
 
@@ -18,7 +20,6 @@ l1 # malformed no instruction- should be ignored
 ###l1 foo 1 2 # unrecognized insruction
 
 
-###l1 out # malformed out - no register given
 
 ###f3 out 32 # out with invalid register (maximum is 32)
 
