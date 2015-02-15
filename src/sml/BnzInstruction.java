@@ -42,7 +42,7 @@ public class BnzInstruction extends Instruction {
 	}
 
 	/**
-	 * Executes and out instruction.
+	 * Executes an out instruction.
 	 * 
 	 * @Param m the machine to getRegister from.
 	 */
