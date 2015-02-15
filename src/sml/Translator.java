@@ -106,7 +106,8 @@ public class Translator {
 			return null;
 
 		String origLine = line; // for error message
-		String ins = scan();
+		String ins = scan(); // the instruction 
+		
 		// reflection:
 		// first makeup the appropriate class name.
 		// For example for 'add' the class is called 'sml.AddInstruction'

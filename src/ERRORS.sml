@@ -3,7 +3,9 @@
 # top of file and record its output
 
 
-l1 bnz 1 # malformed bnz no label to jump to
+l1 # malformed no instruction- should be ignored
+
+###l1 bnz 1 # malformed bnz no label to jump to
 
 ###l1 lin 20 1 
 ###l1 bnz 20 l1 # bnz jump to a label with duplicate matches
