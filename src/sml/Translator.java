@@ -106,8 +106,8 @@ public class Translator {
 			return null;
 
 		String origLine = line; // for error message
-		String ins = scan(); // the instruction 
-		
+		String ins = scan(); // the instruction
+
 		// reflection:
 		// first makeup the appropriate class name.
 		// For example for 'add' the class is called 'sml.AddInstruction'
@@ -128,12 +128,10 @@ public class Translator {
 		if (longestConstr == null) {
 			throw new RuntimeException(
 					"No Constructor Found: although there is a class '"
-					+ insClass
-					+ "' cannot find a constructor?"
-					+ " Problem found when dealing with '" + label
-					+ origLine + "'");
+							+ insClass + "' cannot find a constructor?"
+							+ " Problem found when dealing with '" + label
+							+ origLine + "'");
 		}
-
 
 		// build up parameters to supply to the Constructor
 		int numberOfParams = longestConstr.getParameterCount();
@@ -156,9 +154,13 @@ public class Translator {
 				throwIfNotValid(par, label + origLine);
 				params[pc] = par;
 			} else { // Can only handle String & int so throw exception ...
-				throw new RuntimeException("Cannot Parameter Type '" + pType
-						+ "' as cannot parse this. Found for instruction '"
-						+ label + origLine + "'");
+				throw new RuntimeException(
+						"Illegal Parameter Type '"
+								+ pType
+								+ "' in constructor for class '" + insClassName + "'. "  
+								+ "Cannot proceeed as have no way to parse input line to provide such a parameter. "
+								+ "Problem found for instruction '" + label
+								+ origLine + "'");
 			}
 		}
 
