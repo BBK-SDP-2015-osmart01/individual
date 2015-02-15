@@ -145,7 +145,7 @@ public class Translator {
 				String par;
 				// 1st argument is a string already supplied as label
 				if (pc == 0) {
-					par = label; 
+					par = label;
 				} else {
 					par = scan();
 				}
@@ -155,9 +155,10 @@ public class Translator {
 				int par = scanInt();
 				throwIfNotValid(par, label + origLine);
 				params[pc] = par;
-			} else {
-
-				// ??? throw an error
+			} else { // Can only handle String & int so throw exception ... 
+				throw new RuntimeException("Cannot Parameter Type '" + pType
+						+ "' as cannot parse this. Found for instruction '"
+						+ label + origLine + "'");
 			}
 		}
 
