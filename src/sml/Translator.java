@@ -28,26 +28,6 @@ public class Translator {
 
 	private static final String SRC = "src";
 
-	/**
-	 * constant parameter list { string, int, int, int }
-	 */
-	private static final Class<?> PARAMS_SIII[] = { String.class, int.class,
-			int.class, int.class };
-	/**
-	 * constant parameter list { string, int, int }
-	 */
-	private static final Class<?> PARAMS_SII[] = { String.class, int.class,
-			int.class };
-	/**
-	 * constant parameter list { string, int, string }
-	 */
-	private static final Class<?> PARAMS_SIS[] = { String.class, int.class,
-			String.class };
-	/**
-	 * constant parameter list { string, int }
-	 */
-	private static final Class<?> PARAMS_SI[] = { String.class, int.class };
-
 	public Translator(String fileName) {
 		this.fileName = SRC + "/" + fileName;
 	}
@@ -150,14 +130,11 @@ public class Translator {
 		int numberOfParams = -1;
 		for (Constructor<?> itConstr : insClassConstructors) {
 			int itPC = itConstr.getParameterCount();
-			System.out.println("debug itPC=" + itPC);
 			if (itPC >= numberOfParams) {
 				numberOfParams = itPC;
 				longestConstr = itConstr;
 			}
 		}
-		System.out.println("debug " + label + origLine + " maxPC="
-				+ numberOfParams);
 
 		// build up parameters to supply to the Constructor
 		Object[] params = new Object[numberOfParams];
@@ -172,12 +149,10 @@ public class Translator {
 				} else {
 					par = scan();
 				}
-				System.out.println("debug String=" + par);
 				throwIfNotValid(par, label + origLine);
 				params[pc] = par;
 			} else if (pType.equals(int.class)) {
 				int par = scanInt();
-				System.out.println("debug int=" + par);
 				throwIfNotValid(par, label + origLine);
 				params[pc] = par;
 			} else {
@@ -195,85 +170,6 @@ public class Translator {
 					+ ex.getMessage() + "' class '" + insClassName
 					+ "' for instruction '" + label + origLine + "'");
 		}
-	}
-
-	// for (Constructor<?> itConstr : insClassConstructors) {
-	// // what parameters does this constructor have?
-	// Class<?> pTypes[] = itConstr.getParameterTypes();
-	//
-	// try {
-	// // look for a constructor with parameters we can provide
-	// if (pTypesMatch(pTypes, PARAMS_SIII)) {
-	// // the parameters are string,int,int,int. As used in add ..
-	// int r = scanInt();
-	// int s1 = scanInt();
-	// int s2 = scanInt();
-	// throwIfNotValid(r, label + origLine);
-	// throwIfNotValid(s1, label + origLine);
-	// throwIfNotValid(s2, label + origLine);
-	// return (Instruction) itConstr.newInstance(label, r, s1, s2);
-	//
-	// } else if (pTypesMatch(pTypes, PARAMS_SII)) {
-	// // the parameters are string,int,int. As used in lin
-	// int r = scanInt();
-	// int x = scanInt();
-	// throwIfNotValid(r, label + origLine);
-	// throwIfNotValid(x, label + origLine);
-	// return (Instruction) itConstr.newInstance(label, r, x);
-	//
-	// } else if (pTypesMatch(pTypes, PARAMS_SIS)) {
-	// // the parameters are string,int,string. As used in bnz
-	// int s1 = scanInt();
-	// String L2 = scan();
-	// throwIfNotValid(s1, label + origLine);
-	// throwIfNotValid(L2, label + origLine);
-	// return (Instruction) itConstr.newInstance(label, s1, L2);
-	//
-	// } else if (pTypesMatch(pTypes, PARAMS_SI)) {
-	// // the parameters string,int? (as used in out ....)
-	// int s1 = scanInt();
-	// throwIfNotValid(s1, label + origLine);
-	// return (Instruction) itConstr.newInstance(label, s1);
-	// }
-	//
-	// } catch (InstantiationException | IllegalAccessException
-	// | IllegalArgumentException | InvocationTargetException ex) {
-	// // Problem with one of the constructors
-	// throw new RuntimeException("Constructor Exception  '"
-	// + ex.getMessage() + "' class '" + insClassName
-	// + "' for instruction '" + label + origLine + "'");
-	// }
-	//
-	// }
-	//
-	// throw new RuntimeException(
-	// "No Constructor Found: although there is a class '"
-	// + insClass
-	// + "' cannot find a constructor with appropriate arguments"
-	// + " problem found when dealing with '" + label
-	// + origLine + "'");
-	// }
-
-	/**
-	 * Check whether two arrays of parameter types have the same elements
-	 * 
-	 * @param pTypes
-	 *            first array of parameter types
-	 * @param gTypes
-	 *            2nd array of parameter types
-	 * @return true if the arrays match, false otherwise
-	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
-	 */
-	private boolean pTypesMatch(Class<?> pTypes[], Class<?> gTypes[]) {
-		boolean retValue = false;
-		if (pTypes.length == gTypes.length) {
-			retValue = true;
-			for (int it = 0; it < pTypes.length; it++) {
-				if (!pTypes[it].equals(gTypes[it]))
-					retValue = false;
-			}
-		}
-		return retValue;
 	}
 
 	/**
