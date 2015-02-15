@@ -141,6 +141,7 @@ public class Translator {
 		Object[] params = parseParams(longestConstr, label, origLine,
 				insClassName);
 
+		// invoke the constructor with the parameter list that has been parsed
 		try {
 			return (Instruction) longestConstr.newInstance(params);
 		} catch (InstantiationException | IllegalAccessException
