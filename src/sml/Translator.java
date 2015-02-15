@@ -89,9 +89,11 @@ public class Translator {
 	 *
 	 * N.B. the method uses reflection to load a appropriate Object for each
 	 * instruction. For an instruction 'abc' it will expect to be able to load
-	 * class 'sml.AbcInstruction'. This class must have an appropriate
-	 * constructor with the same arguments as one of the existing SML
-	 * instructions (see coursework pdf document).
+	 * class 'sml.AbcInstruction'. The class constructor with the longest number
+	 * of parameters will be used. In the event of a "tie" the last constructor
+	 * will be used. The routine will parse int and Strings from the input
+	 * 'line' to pass into the constructor. An exception will be raised if the
+	 * constructor has a parameter other than an int or String.
 	 * 
 	 * @param label
 	 *            the label for the instruction
@@ -134,6 +136,65 @@ public class Translator {
 		}
 
 		// build up parameters to supply to the Constructor
+		// by scanning from the input line.
+		Object[] params = parseParams(longestConstr, label, origLine,
+				insClassName);
+
+		try {
+			return (Instruction) longestConstr.newInstance(params);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException ex) {
+			// Problem with the constructor
+			throw new RuntimeException("Constructor Exception  '"
+					+ ex.getMessage() + "' class '" + insClassName
+					+ "' for instruction '" + label + origLine + "'");
+		}
+	}
+
+	/**
+	 * Finds the constructor with the longest parameter list available
+	 * 
+	 * @param aClass
+	 *            the class to work on
+	 * @return the longest constructor or null if there are no constructors
+	 *         (impossible?)
+	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
+	 */
+	private Constructor<?> longestConstructor(Class<?> aClass) {
+		Constructor<?> longestConstr = null;
+		// What constructors does this class have?
+		Constructor<?> insClassConstructors[] = aClass.getConstructors();
+		int maxParams = -1;
+		for (Constructor<?> itConstr : insClassConstructors) {
+			int itPC = itConstr.getParameterCount();
+			if (itPC >= maxParams) {
+				maxParams = itPC;
+				longestConstr = itConstr;
+			}
+		}
+		return longestConstr;
+	}
+
+	/**
+	 * parse constructor parameters from line (class variable) into an Object
+	 * array
+	 * 
+	 * @param longestConstr
+	 *            the constructor
+	 * @param label
+	 *            the label for this instruction (already parsed)
+	 * @param origLine
+	 *            the original line
+	 * @param insClassName
+	 *            The class Name
+	 * @return Object array of passed parameters
+	 * @throws RunTimeException
+	 *             if there has been a problem
+	 * 
+	 * @author Oliver Smart <osmart01@dcs.bbk.ac.uk>
+	 */
+	private Object[] parseParams(Constructor<?> longestConstr, String label,
+			String origLine, String insClassName) {
 		int numberOfParams = longestConstr.getParameterCount();
 		Object[] params = new Object[numberOfParams];
 		Class<?> pTypes[] = longestConstr.getParameterTypes();
@@ -157,45 +218,16 @@ public class Translator {
 				throw new RuntimeException(
 						"Illegal Parameter Type '"
 								+ pType
-								+ "' in constructor for class '" + insClassName + "'. "  
+								+ "' in constructor for class '"
+								+ insClassName
+								+ "'. "
 								+ "Cannot proceeed as have no way to parse input line to provide such a parameter. "
 								+ "Problem found for instruction '" + label
 								+ origLine + "'");
 			}
 		}
 
-		try {
-			return (Instruction) longestConstr.newInstance(params);
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException ex) {
-			// Problem with the constructor
-			throw new RuntimeException("Constructor Exception  '"
-					+ ex.getMessage() + "' class '" + insClassName
-					+ "' for instruction '" + label + origLine + "'");
-		}
-	}
-
-	/**
-	 * Finds the constructor with the longest parameter list available
-	 * 
-	 * @param aClass
-	 *            the class to work on
-	 * @return the longest constructor or null if there are no constructors
-	 *         (impossible?)
-	 */
-	private Constructor<?> longestConstructor(Class<?> aClass) {
-		Constructor<?> longestConstr = null;
-		// What constructors does this class have?
-		Constructor<?> insClassConstructors[] = aClass.getConstructors();
-		int maxParams = -1;
-		for (Constructor<?> itConstr : insClassConstructors) {
-			int itPC = itConstr.getParameterCount();
-			if (itPC >= maxParams) {
-				maxParams = itPC;
-				longestConstr = itConstr;
-			}
-		}
-		return longestConstr;
+		return params;
 	}
 
 	/**
