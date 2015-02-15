@@ -121,22 +121,21 @@ public class Translator {
 					+ "' on line '" + label + origLine + "'"
 					+ " (cannot load a Class '" + insClassName + "')");
 		}
-
-		// What constructors does this class have?
-		Constructor<?> insClassConstructors[] = insClass.getConstructors();
 		// Want the constructor with the largest number of parameters
 		// (because some classes like 'lin' have "non-operational" constructors)
-		Constructor<?> longestConstr = null;
-		int numberOfParams = -1;
-		for (Constructor<?> itConstr : insClassConstructors) {
-			int itPC = itConstr.getParameterCount();
-			if (itPC >= numberOfParams) {
-				numberOfParams = itPC;
-				longestConstr = itConstr;
-			}
+		Constructor<?> longestConstr = longestConstructor(insClass);
+		if (longestConstr == null) {
+			throw new RuntimeException(
+					"No Constructor Found: although there is a class '"
+					+ insClass
+					+ "' cannot find a constructor?"
+					+ " Problem found when dealing with '" + label
+					+ origLine + "'");
 		}
 
+
 		// build up parameters to supply to the Constructor
+		int numberOfParams = longestConstr.getParameterCount();
 		Object[] params = new Object[numberOfParams];
 		Class<?> pTypes[] = longestConstr.getParameterTypes();
 		for (int pc = 0; pc < numberOfParams; pc++) {
@@ -155,7 +154,7 @@ public class Translator {
 				int par = scanInt();
 				throwIfNotValid(par, label + origLine);
 				params[pc] = par;
-			} else { // Can only handle String & int so throw exception ... 
+			} else { // Can only handle String & int so throw exception ...
 				throw new RuntimeException("Cannot Parameter Type '" + pType
 						+ "' as cannot parse this. Found for instruction '"
 						+ label + origLine + "'");
@@ -171,6 +170,30 @@ public class Translator {
 					+ ex.getMessage() + "' class '" + insClassName
 					+ "' for instruction '" + label + origLine + "'");
 		}
+	}
+
+	/**
+	 * Finds the constructor with the longest parameter list available
+	 * 
+	 * @param aClass
+	 *            the class to work on
+	 * @return the longest constructor or null if there are no constructors
+	 *         (impossible?)
+	 */
+	private Constructor<?> longestConstructor(Class<?> aClass) {
+		Constructor<?> longestConstr = null;
+		// What constructors does this class have?
+		Constructor<?> insClassConstructors[] = aClass.getConstructors();
+		int maxParams = -1;
+		for (Constructor<?> itConstr : insClassConstructors) {
+			int itPC = itConstr.getParameterCount();
+			if (itPC >= maxParams) {
+				maxParams = itPC;
+				longestConstr = itConstr;
+			}
+		}
+		// TODO Auto-generated method stub
+		return longestConstr;
 	}
 
 	/**
