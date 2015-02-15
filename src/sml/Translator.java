@@ -40,6 +40,8 @@ public class Translator {
 	 * @param prog
 	 *            the program (an ArrayList of Instructions)
 	 * @return success indicator - return false if a error is found
+	 * @author SDP course work code bugs fixed by Oliver Smart
+	 *         <osmart01@dcs.bbk.ac.uk>
 	 */
 	public boolean readAndTranslate(Labels lab, ArrayList<Instruction> prog) {
 
